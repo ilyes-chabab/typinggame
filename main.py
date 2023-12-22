@@ -45,7 +45,7 @@ score=0
 y=0
 victory=0
 defeat=0
-
+#initialisation des True/False pour les condition
 clock=pygame.time.Clock()
 running=True
 menu=True
@@ -58,12 +58,14 @@ lose=True
 fail=True
 descent=False
 rule=False
+#fonction pour pouvoir ecrire quelque chose sur l'ecran
 def message(size,message,message_rectangle,color):
     font=pygame.font.SysFont("arial",size)
     message = font.render(message,False,color)
-    screen.blit(message,message_rectangle)         
+    screen.blit(message,message_rectangle) 
+#boucle principale        
 while running:
-    
+    #boucle du menu pour regarder les regles ou jouer directement
     while menu:       
         screen.fill((255,255,140))     
         pygame.draw.rect(screen , (255, 191, 0),(200,200,600,300))      
@@ -74,6 +76,7 @@ while running:
 
         screen.blit(play_text,(475,385))
         screen.blit(rule_text,(475,300))
+        #evenement des Boutons Jouer et Regle
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit()
@@ -97,7 +100,7 @@ while running:
 
         clock.tick(60)
         pygame.display.flip()
-
+    #boucle pour commencer ou recommencer une partie
     while party:
         random_word=random.choice(liste) 
         random_text=police.render(random_word,1,(0,0,0))              
@@ -106,6 +109,7 @@ while running:
         typing_word= random_word[num]
         print(typing_word)
         party=False
+    #affichage de toutes les images    
     screen.fill((0,128,80))                 
     screen.blit(fond_namek_redimensionne,(0,y_background1))
     screen.blit(fond_space_redimensionne,(0,y_background2)) 
@@ -115,7 +119,8 @@ while running:
     screen.blit(image_cloud_redimensionne,(350,y_cloud3))    
     screen.blit(image_cloud_redimensionne,(350,y_cloud4))  
     screen.blit(image_cloud_redimensionne,(350,y_cloud5))
-
+    #condition pour creer une animation du decors lorsque le mot est juste , image est True et lorsqu'il devient false
+    #le fond et les nuage(plateforme) sont deplacés vers le bas
     if image:
         screen.blit(image_goku_redimensionne,(375,250))
     else:
@@ -149,6 +154,7 @@ while running:
             screen.blit(image_goku_redimensionne,(400,200))
             image=True 
             print(image) 
+    #tant que le joueur n'a nis perdu ni gagné , le dashboard et le mot a ecrire sont visible
     if notfinish:
         pygame.draw.rect(screen , (0,0,80),(0,50,350,300))    
         message(50,random_word,(425,50,0,0),(0,0,180)) 
@@ -157,6 +163,7 @@ while running:
         message(50,f"Score :{score}",(0,90,0,0),(255,255,255))
         message(50,f"Victoire :{victory}",(0,150,0,0),(255,255,255))
         message(50,f"Défaite :{defeat}",(0,200,0,0),(255,255,255))
+    #conditions pour prévenir au joueur s'il a perdu ou gagné 
     if lose == False:
         message(50,"Perdu ! :(",(400,150,0,0),(255,0,0))
         message(50,"Appuyer sur entrée pour recommencer.",(100,100,0,0),(255,255,255))
@@ -164,10 +171,12 @@ while running:
         message(50,"Gagné ! :D",(400,150,0,0),(255,0,0))
         message(50,"Appuyer sur entrée pour recommencer.",(100,100,0,0),(255,255,255))    
 
-    pygame.display.flip()      
+    pygame.display.flip()  
+    #programmation du jeu    
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             sys.exit()
+        #lorsque le joueur a perdu ou gagné , il doit appuyer sur return(entrée) pour recommencer.Alors ca 
         if notfinish==False :   
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RETURN:                
